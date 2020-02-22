@@ -17,6 +17,8 @@ import xyz.zxcwxy999.mongodbfileserver.domain.File;
 import xyz.zxcwxy999.mongodbfileserver.service.FileService;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +39,8 @@ public class FileController {
     @RequestMapping(value = "/")
     public String index(Model model) {
         //展示最新20条数据
-        model.addAttribute("files", fileService.listFilesByPage(0, 20));
+        List<File> files = fileService.listFilesByPage(0, 20);
+        model.addAttribute("files", files);
         return "index";
     }
 
@@ -65,12 +68,20 @@ public class FileController {
     public ResponseEntity<Object> serveFile(@PathVariable String id) {
         Optional<File> file = fileService.getFileById(id);
         if (file.isPresent()) {
+            String s= null;
+            try {
+                s = URLEncoder.encode(file.get().getName(), "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
             return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;fileName=\"" + file.get().getName() + "\"")
-                    .header(HttpHeaders.CONTENT_TYPE, "application/octet-stream")
-                    .header(HttpHeaders.CONTENT_LENGTH, file.get().getSize() + "")
-                    .header("Connection", "close")
-                    .body(file.get().getContent().getData());
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;fileName=\"" + s + "\"")
+                        .header(HttpHeaders.CONTENT_TYPE, "application/octet-stream")
+                        .header(HttpHeaders.CONTENT_LENGTH, file.get().getSize() + "")
+                        .header("Connection", "close")
+                        .body(file.get().getContent().getData());
+
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("File was not found");
         }
@@ -99,6 +110,12 @@ public class FileController {
 
     }
 
+    /**
+     * 上传
+     * @param file
+     * @param redirectAttributes
+     * @return
+     */
     @PostMapping("/")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         try {
@@ -114,6 +131,11 @@ public class FileController {
         return "redirect:/";
     }
 
+    /**
+     * 上传文件
+     * @param file
+     * @return
+     */
     @PostMapping("/upload")
     @ResponseBody
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file){
@@ -130,7 +152,11 @@ public class FileController {
         }
     }
 
-
+    /**
+     * 删除文件
+     * @param id
+     * @return
+     */
     @DeleteMapping("/{id}")
     @ResponseBody
     public ResponseEntity<String> deleteFile(@PathVariable String id){

@@ -1,13 +1,19 @@
 package xyz.zxcwxy999.mongodbfileserver.domain;
 
 import org.bson.types.Binary;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 
 import java.util.Date;
 
 @Document
 public class File {
+
+
+    @Autowired
+    GridFsTemplate gridFsTemplate;
 
     @Id//主键
     private String id;
@@ -16,7 +22,7 @@ public class File {
     private long size;
     private Date uploadDate;
     private String md5;
-    private Binary content;//文件类型
+    private Binary content;//文件内容
     private String path;//文件路径
 
     public String getId() {
@@ -28,7 +34,8 @@ public class File {
     }
 
     public String getName() {
-        return name;
+        String s=name;
+        return s;
     }
 
     public void setName(String name) {

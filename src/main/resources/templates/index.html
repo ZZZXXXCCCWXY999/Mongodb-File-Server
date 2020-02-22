@@ -4,6 +4,7 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="~{fragments/header :: header}">
+    <meta charset="UTF-8"/>
 </head>
 <body>
 
@@ -42,7 +43,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:if="${files.size()} eq 0">
+        <tr th:if="${files.size() == 0} ">
             <td colspan="3">没有文件信息！！</td>
         </tr>
         <tr th:each="file : ${files}">
@@ -52,7 +53,7 @@
             <td th:text="${file.size}"></td>
             <td th:text="${file.uploadDate}"></td>
             <td th:text="${file.md5}"></td>
-            <td onclick="deleteImg(this)" th:id="${file.id}" style="text-align:center;"><i class="fa fa-trash-o"></i>
+            <td onclick="deleteImg(this)" th:id="${file.id}" style="text-align:center;"><button class="fa fa-trash-o">删除</button>
             </td>
         </tr>
         </tbody>
