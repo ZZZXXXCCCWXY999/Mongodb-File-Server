@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-<head th:replace="~{fragments/header :: header}">
-    <meta charset="UTF-8"/>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
 </head>
 <body>
+<div th:replace="~{fragments/header :: header}">...</div>
+
 
 <div th:if="${message}">
     <h2 th:text="${message}"/>
@@ -15,49 +13,42 @@
 <div>
     <form method="POST" enctype="multipart/form-data" action="/">
         <table>
-            <tr>
-                <td>File to upload:</td>
-                <td><input type="file" name="file"/></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="submit" value="Upload"/></td>
-            </tr>
+            <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+            <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
         </table>
-
+        
     </form>
 </div>
 
-<div>
+<div>    
     <table border="1">
-        <thead>
-        <tr>
+    <thead>
+    <tr>
 
-            <td>Name</td>
-            <td>ID</td>
-            <td>contentType</td>
-            <td>size</td>
-            <td>uploadDate</td>
-            <td>md5</td>
-            <td>delete</td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:if="${files.size() == 0} ">
-            <td colspan="3">没有文件信息！！</td>
-        </tr>
-        <tr th:each="file : ${files}">
-            <td><a th:href="'files/'+${file.id}" th:text="${file.name}"/></td>
-            <td th:text="${file.id}"></td>
-            <td th:text="${file.contentType}"></td>
-            <td th:text="${file.size}"></td>
-            <td th:text="${file.uploadDate}"></td>
-            <td th:text="${file.md5}"></td>
-            <td onclick="deleteImg(this)" th:id="${file.id}" style="text-align:center;"><button class="fa fa-trash-o">删除</button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+        <td>Name</td>
+        <td>ID</td>
+        <td>contentType</td>
+        <td>size</td>
+        <td>uploadDate</td>
+        <td>md5</td>
+        <td>delete</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${files.size()} eq 0">
+        <td colspan="3">没有文件信息！！</td>
+    </tr>
+    <tr th:each="file : ${files}">
+        <td><a th:href="'files/'+${file.id}" th:text="${file.name}" /></td>
+        <td th:text="${file.id}" ></td>
+        <td th:text="${file.contentType}" ></td>
+        <td th:text="${file.size}" ></td>
+        <td th:text="${file.uploadDate}" ></td>
+        <td th:text="${file.md5}" ></td>
+        <td onclick="deleteImg(this)" th:id="${file.id}" style="text-align:center;"><i class="fa fa-trash-o" ></i></td>
+    </tr>
+    </tbody>
+</table>
 </div>
 
 <div th:replace="~{fragments/footer :: footer}">...</div>
