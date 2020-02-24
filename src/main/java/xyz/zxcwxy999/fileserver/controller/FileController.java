@@ -65,7 +65,7 @@ public class FileController {
 	 * 获取文件片信息
 	 * @param id
 	 * @return
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
 	@GetMapping("files/{id}")
 	@ResponseBody
@@ -136,7 +136,7 @@ public class FileController {
 
 	/**
 	 * 上传接口
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 */
@@ -161,6 +161,7 @@ public class FileController {
 
 	/**
 	 * 删除文件
+	 *
 	 * @param id
 	 * @return
 	 */
