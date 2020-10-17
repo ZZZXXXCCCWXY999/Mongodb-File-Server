@@ -41,14 +41,22 @@
             <td colspan="3">没有文件信息！！</td>
         </tr>
         <tr th:each="file : ${files}" class="table-active">
-            <td><a th:href="'files/'+${file.id}" th:text="${file.name}"/></td>
+            <td><a th:href="'view/'+${file.id}" th:text="${file.name}"/></td>
             <td th:text="${file.id}"></td>
             <td th:text="${file.contentType}"></td>
             <td th:text="${file.size}"></td>
             <td th:text="${file.uploadDate}"></td>
             <td th:text="${file.md5}"></td>
-            <td onclick="deleteImg(this)" th:id="${file.id}" style="text-align:center;"><i class="btn btn-danger">删除</i>
+            <td>
+                <div>
+                    <a th:href="'view/'+${file.id}"  style="text-align:center;"><i class="btn btn-danger">查看</i></a>
+                    <a th:href="'files/'+${file.id}"  style="text-align:center;"><i class="btn btn-danger">下载</i></a>
+                    <a onclick="deleteImg(this)" th:id="${file.id}" style="text-align:center;"><i
+                            class="btn btn-danger">删除</i></a>
+                </div>
             </td>
+            <!--            <td onclick="downloadImg(this)" th:id="${file.id}" style="text-align:center;"><i class="btn btn-danger">下载</i></td>-->
+            <!--            <td onclick="deleteImg(this)" th:id="${file.id}" style="text-align:center;"><i class="btn btn-danger">删除</i></td>-->
         </tr>
         </tbody>
     </table>
